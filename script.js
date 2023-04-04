@@ -1,50 +1,54 @@
-const buttonPlus = document.querySelector('.btnPlus')
-const buttonMinus = document.querySelector('.btnMinus')
-const result = document.querySelector('.result')
-const button2 =document.querySelector('.btn2')
-const button3 =document.querySelector('.btn3')
-let num = 0
-result.innerText = num
-console.log(result)
-buttonPlus.addEventListener('click',() =>{
-    if( num < 10 ){
-        num +=1
-        result.innerText = num
-        buttonMinus.disabled = false
+const wrapper = document.querySelector('.wrapper')
+const checkbox = document.querySelector('.checkbox')
+
+const array = [
+    {src: './assets/balloon.png', id: '1'},
+    {src: './assets/balloon.png', id: '2'},
+    {src: './assets/balloon.png', id: '3'},
+    {src: './assets/balloon.png', id: '4'},
+    {src: './assets/balloon.png', id: '5'},
+    {src: './assets/balloon.png', id: '6'},
+    {src: './assets/balloon.png', id: '7'},
+    {src: './assets/balloon.png', id: '8'},
+    {src: './assets/balloon.png', id: '9'},
+]
+wrapper.innerHTML = array.map(item => {
+    return `<div class="col-4">
+           <img src="${item.src}" alt="alt"/>
+    </div>`
+}).join('');
+
+
+const balloons = document.querySelectorAll('img')
+balloons.forEach(item => {
+    item.addEventListener('click', () => {
+        item.classList.toggle('bg')
+        setCheckbox();
+    })
+})
+
+checkbox.addEventListener('click', () => {
+    if (checkbox.checked === true) {
+        balloons.forEach(item => {
+            item.classList.add('bg')
+        })
     } else {
-        buttonPlus.disabled = true
-    }
-
-
-})
-
-buttonMinus.addEventListener('click',() =>{
-    if (num > 0){
-        num -=1
-        result.innerText = num
-        buttonPlus.disabled = false
-    }else {
-        buttonMinus.disabled = true
+        console.log(1);
+        balloons.forEach(item => {
+            item.classList.remove('bg')
+        })
     }
 })
 
-button2.addEventListener('click',() =>{
-    if( num < 100 ){
-        num =num**2
-        result.innerText = num
-        button2.disabled = false
-    } else {
-        button2.disabled = true
-    }
+function setCheckbox() {
+    console.log('start');
+    const backgrounds = [];
 
+    balloons.forEach(baloon => {
+        if (baloon.classList.contains('bg')) {
+            backgrounds.push(true)
+        }
+    })
 
-})
-button3.addEventListener('click',() => {
-    if (num > 0) {
-        num /= 2
-        result.innerText = num
-        button3.disabled = false
-    } else {
-        button3.disabled = true
-    }
-})
+    checkbox.checked = backgrounds.length === balloons.length
+}
